@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./style.css" />
+		<title>Farmers Home</title>
+		<link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+        <script src="./js/jquery.js"></script>
+		<style>
+			.input-err{
+				color: rgba(255, 0, 0, 0.596);
+				font-size: 12px;
+				letter-spacing: 1px;
+				margin-top: 0;
+				display: none;
+}
+		</style>
+	</head>
+	<body>
+		<nav class="container">
+			<div class="logo">
+				<span>FARMER'S HOME</span>
+			</div>
+			<div class="nav-links-cont">
+				<ul class="nav-links">
+					<li class="links"><a href="./index.html">Home</a></li>
+					<li class="links"><a href="#">About</a></li>
+					<li class="links"><a href="#">Products</a></li>
+					<li class="links"><a href="#">Contact Us</a></li>
+					<li class="links"><a href="#">Account</a></li>
+					<button class="snipcart-checkout btn btn-1" style="margin: 0 10px">
+						Cart
+					</button>
+					<button class="btn btn-1" onclick="login()">LOG IN</button>
+				</ul>
+			</div>
+			<div class="font-awesome">
+                <i class="fa fa-bars" style="margin-right: 40px;"></i>
+            </div>
+		</nav>
+		
+		<div class="login-section" id="login">
+			<div class="form container">
+				<div class="form-container">
+					<div class="head-form">
+						<h2 class="title">Register</h2>
+						<p class="my-3">Kindly complete these fields</p>
+					</div>
+					<form id="frmobj" method="post">
+                        <div class="form-field">
+							<label for="name">FullName:</label>
+							<p class="input-err" id="fn-err">Kindly enter a valid Fullname</p>
+							<input type="text" class="form-control" name="FullName" id="FullName" placeholder="e.g Joe Enoch" />
+						</div>
+                        <div class="form-field">
+							<label for="address">Address:</label>
+							<p class="input-err" id="address-err">Kindly enter a valid Adress</p>
+							<input type="text" class="form-control" name="address" id="address" placeholder="Ikeja Lagos" />
+						</div>
+                        <div class="form-field">
+							<label for="number">Phone number:</label>
+							<p class="input-err" id="ph-err">Kindly enter a valid Phone number</p>
+							<input type="number" class="form-control" name="phonenum" id="phonenum" placeholder="0808000000" />
+						</div>
+						<div class="form-field">
+							<label for="email">Email:</label>
+							<p class="input-err" id="email-err">Kindly enter a valid Email</p>
+							<input type="email" class="form-control" name="email" id="email" placeholder="example@gmail.com" />
+						</div>
+						<div class="form-field">
+							<label for="password">Password:</label>
+							<p class="input-err" id="password-err">Kindly enter a valid password</p>
+							<input type="password" class="form-control" name="password" id="password" placeholder="*****"/>
+						</div>
+						<submit class="btn btn-1 form-btn" onclick="register()">Submit</submit>
+                        <h3 class="small-text my-3">Have you registered already? Login <a href="login.html">here</a></h3>
+						<p class="small-text">Join this site community. Read more</p>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="./js/validate.js"></script>
+    <script>
+		var bars = document.querySelector(".fa-bars")
+		var nav = document.querySelector(".nav-links")
+		bars.addEventListener('click', function(){
+			nav.classList.toggle('shark');
+		})
+
+        onload = emptyinput();
+
+        function emptyinput(){
+			$("#FullName").val('');
+			$("#address").val('');
+			$("#phonenum").val('');
+			$("#email").val('');
+			$("#password").val('');		
+		}
+
+        function register() {
+			var FullName 	= 	$("#FullName").val().trim();
+			var address 	= 	$("#address").val().trim();	
+			var phonenum		=	$("#phonenum").val().trim();
+			var email			=	$("#email").val().trim();			
+			var password			=	$("#password").val().trim();			
+			if (FullName=='' || address=='' || phonenum=='' || email=='' || password==''){
+				alert('One or more fields are empty');
+			}else{
+				//var formdata = 'MatricNo='+MatricNo+'&FullName='+FullName+'&Gender='+Gender+'&Age='+Age;
+				var formdata = $("#frmobj").serialize();
+				if (confirm("Register Now?")==true){
+					$.post("assets/phplinks/insert.php",formdata).done(function(t){
+						if (t==1){
+							alert('You have Successfully registered');
+                            emptyinput()
+                            window.location.href="./login.html";
+						}else if (t==2){
+							alert('This Email is already  registered');
+                            emptyinput()
+                            window.location.href="./login.html";
+                        } 
+                        else{
+							alert('registered');
+                            emptyinput()
+						}
+                        });
+				}
+			}
+		}
+		
+		
+    </script>
+</html>
